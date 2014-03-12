@@ -33,13 +33,13 @@
             <h3 class="text-center text-muted">NSN</h3>
             <hr>
             <div ng-repeat="question in questions" class="row">
-                <div class="col-sm-6 text-right">
+                <div class="col-sm-8 text-right">
                     <p>
                         {{ question.q }}
                         <span ng-show="question.hint" tooltip="{{ question.hint }}" tooltip-placement="right" class="glyphicon glyphicon-info-sign text-info">
                     </p>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <p>
                         <rating value="question.rate" max="maxRate" readonly="false" on-hover="hoveringOver(question, value)" on-leave="question.overStar = null"></rating>
                         <span class="label" ng-class="{'label-warning': question.percent<30, 'label-info': question.percent>=30 && question.percent<70, 'label-success': question.percent>=70}" ng-show="question.overStar">{{ rates[question.overStar] }}</span>
@@ -48,10 +48,10 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-sm-6 text-right">
+                <div class="col-sm-8 text-right">
                     <h4><strong>Overall impression</strong></h4>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <h4>
                         <rating value="avg" max="maxRate" readonly="true"></rating>
                         <span class="label" ng-class="{'label-warning': avg<0.3*maxRate, 'label-info': avg>=0.3*maxRate && avg<0.7*maxRate, 'label-success': avg>=0.7*maxRate}">
