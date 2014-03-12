@@ -1,0 +1,118 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!-- build:css({.tmp,app}) styles/main.css -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+</head>
+  <body ng-app="surveyApp">
+    <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="bower_components/es5-shim/es5-shim.js"></script>
+      <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div class="container" ng-controller="MainCtrl">
+        <div ng-hide="finished">
+            <h1 class="text-center">JS4J Survey</h1>
+            <h3 class="text-center text-muted">NSN</h3>
+            <hr>
+            <div ng-repeat="question in questions" class="row">
+                <div class="col-sm-6 text-right">
+                    <p>
+                        {{ question.q }}
+                        <span ng-show="question.hint" tooltip="{{ question.hint }}" tooltip-placement="right" class="glyphicon glyphicon-info-sign text-info">
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <p>
+                        <rating value="question.rate" max="maxRate" readonly="false" on-hover="hoveringOver(question, value)" on-leave="question.overStar = null"></rating>
+                        <span class="label" ng-class="{'label-warning': question.percent<30, 'label-info': question.percent>=30 && question.percent<70, 'label-success': question.percent>=70}" ng-show="question.overStar">{{ rates[question.overStar] }}</span>
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-6 text-right">
+                    <h4><strong>Overall impression</strong></h4>
+                </div>
+                <div class="col-sm-6">
+                    <h4>
+                        <rating value="avg" max="maxRate" readonly="true"></rating>
+                        <span class="label" ng-class="{'label-warning': avg<0.3*maxRate, 'label-info': avg>=0.3*maxRate && avg<0.7*maxRate, 'label-success': avg>=0.7*maxRate}">
+                            {{ getRate(avg) }}
+                        </span>
+                    </h4>
+                </div>
+            </div>
+
+            <hr>
+            <h4 ng-class="{ 'alert alert-danger': avg/maxRate <= 0.5, 'alert alert-info': avg/maxRate > 0.5 }">
+                Other Comments (e.q. concerning pace of the training etc.) 
+                <span ng-show="avg/maxRate <= 0.5">obligatory</span>
+            </h4>
+            <textarea class="form-control" ng-model="comments" rows="6" ng-required="avg/maxRate <= 0.5" placeholder="I would be really happy to hear from you! Please feed me back :)"></textarea>
+            <hr>
+            <p class="text-center">
+                <button ng-click="submit()" ng-disabled="!isEverythingFilled" class="btn btn-lg btn-primary">Submit</button>
+                <br />
+                <span class="text-danger" ng-hide="isEverythingFilled">
+                    You have to answer all questions.
+                </span>
+            </p>
+        </div>
+        <div ng-show="finished">
+            <div class="jumbotron">
+                <h1>
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    Thanks a lot for your feedback!
+                </h1>
+                <p>
+                    Hope to see you again on other trainings!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src='//www.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+        <!-- build:js scripts/modules.js -->
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src='bower_components/d3/d3.min.js'></script> 
+        <script src='bower_components/angular-charts/dist/angular-charts.min.js'></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <!-- endbuild -->
+</body>
+</html>
