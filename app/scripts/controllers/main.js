@@ -37,6 +37,9 @@ angular.module('surveyApp')
             q: 'In my opinion the course duration vs. subject was',
             hint: ''
         }, {
+            q: 'How well can you apply what you have learned in your daily work?',
+            hint: ''
+        }, {
             q: 'How would you evaluate the course in general?',
             hint: ''
         }, {
